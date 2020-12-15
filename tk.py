@@ -1,6 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import os
+from tkinter import messagebox
+from tkinter import filedialog
 
 root = Tk()
 root.geometry("1000x750")
@@ -22,7 +24,7 @@ def next():
     n = (n+1)%len(items_list)
     img1 = items_list[n]
     print(img1)
-    image = Image.open('./images/'+img1)
+    image = Image.open(directory_name + "/" + img1)
     copy_of_image = image.copy()
     photo = ImageTk.PhotoImage(image)
     label = Label(root, image=photo)
@@ -35,18 +37,62 @@ def previous():
     n = (n-1)%len(items_list)
     img1 = items_list[n]
     print(img1)
-    image = Image.open('./images/'+img1)
+    image = Image.open(directory_name + "/" + img1)
     copy_of_image = image.copy()
     photo = ImageTk.PhotoImage(image)
     label = Label(root, image=photo)
     label.bind('<configure>',resize_image(root,copy_of_image,label1))
     label.pack()
 
+def browse_folder():
+    global directory_name
+    global items_list
+    global n
+    
+    directory_name =  filedialog.askdirectory(initialdir="./", title="Select Folder")
+    items_list = os.listdir(directory_name)
+    if len(items_list) <= 0:
+        messagebox.showerror("error", "no images in the given folder")
+        exit0()
+    n = 0
+    img1 = items_list[n]
+
+    image = Image.open(directory_name+ "/" + img1)
+    copy_of_image = image.copy()
+    photo = ImageTk.PhotoImage(image)
+
+    label = Label(root, image=photo)
+    label.bind('<configure>',resize_image(root,copy_of_image,label1))
+    label.pack()
+    
+    
+def exit0():
+    root.destroy( )
+
+    
+#menu bar
+menubar = Menu(root)
+root.config(menu = menubar)
+file_menu = Menu(menubar)
+menubar.add_cascade(label="File",menu=file_menu)
+file_menu.add_command(label="Browse Folder", command=browse_folder)
+file_menu.add_separator()
+file_menu.add_command(label="exit", command=exit0)
+
+
+
+#images part and swipe buttons
 n=0
 items_list = os.listdir("images")
+directory_name = "./images/"
+
+if len(items_list) <= 0:
+    messagebox.showerror("error", "no images in the given folder")
+    exit0()
+    
 img1 = items_list[n]
 
-image = Image.open("./images/" + img1)
+image = Image.open(directory_name + img1)
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 
