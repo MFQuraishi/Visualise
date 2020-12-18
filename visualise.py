@@ -8,13 +8,13 @@ import manipulation
 
 root = Tk()
 root.title("Visualise")
-root.geometry("950x650")
+root.geometry("1000x650")
 root.resizable(False, False)
 
 
 def resize_image(root, copy_of_image, label1):
     new_height = 600
-    new_width = 925
+    new_width = 975
     image=copy_of_image.resize((new_width,new_height))
     photo = ImageTk.PhotoImage(image)
     label1.configure(image=photo)
