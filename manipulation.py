@@ -109,7 +109,7 @@ def horizontal_flip(path, root, label1):
     view_image(root, label1, copy_of_image)
 
 def resize_image(root, copy_of_image, label1):
-    new_height = 700
+    new_height = 650
     new_width = 975
     image=copy_of_image.resize((new_width,new_height))
     photo = ImageTk.PhotoImage(image)
